@@ -638,7 +638,7 @@ try {
         price: priceConfigured ? product.price : (product.price ?? seeded.price),
         originalPrice: product.originalPrice ?? null,
         fabric: product.fabric || seeded.fabric,
-        sold: Boolean(product.sold || seeded.sold),
+        sold: typeof product.sold === "boolean" ? product.sold : Boolean(seeded.sold),
         priceConfigured: true
       };
     });

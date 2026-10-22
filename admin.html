@@ -201,6 +201,16 @@
         resize: vertical;
       }
 
+      .sold-toggle {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .sold-toggle input {
+        width: auto;
+      }
+
       .status-message {
         min-height: 20px;
         margin-top: 14px;
@@ -463,6 +473,13 @@
                 <input id="productFabric" name="fabric" type="text" placeholder="e.g. Soft silk" />
               </div>
 
+              <div class="field-group">
+                <label class="sold-toggle" for="productSold">
+                  <input id="productSold" name="sold" type="checkbox" />
+                  Mark as sold
+                </label>
+              </div>
+
               <div class="field-group admin-image-box">
                 <label for="productImage">Image path or upload</label>
                 <input id="productImage" name="image" type="text" required placeholder="assets/images/tha-001.jpeg" />
@@ -521,7 +538,7 @@
       </section>
     </main>
 
-    <script src="products.js?v=2026-10-22-price-tags"></script>
-    <script src="admin.js?v=2026-10-22-price-tags"></script>
+    <script src="products.js?v=2026-10-22-sold-toggle"></script>
+    <script src="admin.js?v=2026-10-22-sold-toggle"></script>
   </body>
 </html>

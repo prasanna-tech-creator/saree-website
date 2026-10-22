@@ -10,7 +10,7 @@
 2. Open `index.html` in a modern browser. For best results, run a local static server from this folder (for example, `python -m http.server 8000`) and open `http://localhost:8000`.
 
 ## Product data and pricing
-The 41 prices and fabric/type labels supplied for THA-001 through THA-041 are stored against their matching product IDs in `products.js`. THA-001 is marked sold. Discounted pricing is supported with an optional `originalPrice`; no discounts are applied unless an original price is entered above the selling price. The admin dashboard lets the boutique edit selling price, original price, and fabric/type for each product.
+The 41 prices and fabric/type labels supplied for THA-001 through THA-041 are stored against their matching product IDs in `products.js`. THA-001 is initially marked sold. Sold status can be changed in the admin dashboard and is reflected in the storefront, where sold products cannot be added to the bag. Discounted pricing is supported with an optional `originalPrice`; no discounts are applied unless an original price is entered above the selling price. The admin dashboard lets the boutique edit selling price, original price, fabric/type, and sold status for each product.
 
 ## Updating products
 Edit `products.js` or use the admin dashboard. Each object includes `id`, `name`, `tagline`, `description`, `color`, `body`, `border`, `look`, `occasion`, `price`, optional `originalPrice`, `fabric`, and `image`. Place new image files in `assets/images/` and update the matching `image` path. Leave a price blank if it has not been confirmed; the storefront will show that it is unavailable rather than inventing a price.

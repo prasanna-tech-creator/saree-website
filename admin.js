@@ -127,6 +127,7 @@ function fillForm(product) {
   document.getElementById("productPrice").value = product.price ?? "";
   document.getElementById("productOriginalPrice").value = product.originalPrice ?? "";
   document.getElementById("productFabric").value = product.fabric || "";
+  document.getElementById("productSold").checked = Boolean(product.sold);
   document.getElementById("productImage").value = product.image || "";
   if (productImagePreview) {
     const previewSource = product.image || "";
@@ -186,6 +187,7 @@ function handleProductSubmit(event) {
   const priceInput = String(formData.get("price") || "").trim();
   const originalPriceInput = String(formData.get("originalPrice") || "").trim();
   const fabric = String(formData.get("fabric") || "").trim();
+  const sold = formData.get("sold") === "on";
   const image = String(formData.get("image") || "").trim();
   const color = String(formData.get("color") || "").trim();
   const body = String(formData.get("body") || "").trim();
@@ -232,7 +234,7 @@ function handleProductSubmit(event) {
     price,
     originalPrice,
     priceConfigured: true,
-    sold: editingId ? Boolean(products.find(product => product.id === editingId)?.sold) : false,
+    sold,
     fabric: fabric || null,
     image
   };

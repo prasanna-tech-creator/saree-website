@@ -1,6 +1,6 @@
 const $ = (s, root=document) => root.querySelector(s);
 const $$ = (s, root=document) => [...root.querySelectorAll(s)];
-const products = window.SAREES || [];
+let products = window.SAREES || [];
 const cartKey = "tharinayambyaisha-cart-v1";
 const whatsappNumber = "919500775331";
 let cart = loadCart();
@@ -23,10 +23,15 @@ function cartSubtotal(){
  },0);
 }
 function renderOptions(){
+ const selectedColor=$("#colorFilter").value, selectedOccasion=$("#occasionFilter").value;
+ $("#colorFilter").innerHTML='<option value="">All colours</option>';
+ $("#occasionFilter").innerHTML='<option value="">All occasions</option>';
  const colors=[...new Set(products.map(p=>p.color.split(/\s+(?:with|and)\s+/i)[0]).filter(Boolean))].sort();
  colors.forEach(v=>$("#colorFilter").insertAdjacentHTML("beforeend",`<option value="${safe(v)}">${safe(v)}</option>`));
  const occ=[...new Set(products.flatMap(p=>p.occasion.split(",").map(x=>x.trim())))].sort();
  occ.forEach(v=>$("#occasionFilter").insertAdjacentHTML("beforeend",`<option value="${safe(v)}">${safe(v)}</option>`));
+ $("#colorFilter").value=selectedColor;
+ $("#occasionFilter").value=selectedOccasion;
 }
 function visibleProducts(){
  const q=$("#searchInput").value.trim().toLowerCase(), color=$("#colorFilter").value, occasion=$("#occasionFilter").value, sort=$("#sortSelect").value;
@@ -115,5 +120,20 @@ $("#checkoutForm").addEventListener("submit",e=>{
  $("#confirmation").scrollIntoView({behavior:"smooth",block:"nearest"});
 });
 $("#confirmation").addEventListener("click",e=>{if(e.target.closest("#finishEnquiry")){closeCheckout();clearFilters();$("#shop").scrollIntoView({behavior:"smooth"})}});
+window.addEventListener("storage",event=>{
+ if(event.key!==window.catalogStorageKey||!event.newValue)return;
+ const updatedProducts=JSON.parse(event.newValue);
+ if(!Array.isArray(updatedProducts)){
+  console.error("The updated product catalogue is not valid.");
+  return;
+ }
+ products=updatedProducts;
+ window.SAREES=products;
+ cart=cart.filter(item=>products.some(product=>product.id===item.id&&!product.sold&&hasPrice(product)));
+ renderOptions();
+ renderProducts();
+ updateCart();
+ if(activeProduct)openProduct(activeProduct.id);
+});
 $("#year").textContent=new Date().getFullYear();
 renderOptions();renderProducts();updateCart();
