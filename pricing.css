@@ -1,0 +1,127 @@
+.product-fabric {
+  margin: 7px 0 0;
+  color: #806b5e;
+  font-size: 10px;
+  line-height: 1.45;
+  letter-spacing: 0.025em;
+}
+
+.product-bottom {
+  align-items: center;
+}
+
+.price-tag {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 5px 8px;
+  min-width: 0;
+  color: var(--wine);
+}
+
+.price-tag strong {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.price-tag .original-price {
+  color: var(--muted);
+  font-size: 10px;
+  text-decoration: line-through;
+  white-space: nowrap;
+}
+
+.discount-badge,
+.sold-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #f0e3c8;
+  color: #68491d;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 4px 7px;
+  white-space: nowrap;
+}
+
+.sold-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: var(--wine);
+  color: #fffaf1;
+  text-transform: uppercase;
+}
+
+.price-unavailable {
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.product-bottom .add-button:disabled,
+.detail-actions button:disabled {
+  border-color: var(--line);
+  background: #eee7df;
+  color: #817676;
+  cursor: not-allowed;
+}
+
+.cart-row {
+  grid-template-columns: 64px minmax(0, 1fr) auto;
+}
+
+.cart-line-total {
+  align-self: start;
+  color: var(--wine);
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.cart-total + .cart-total {
+  margin-top: 8px;
+}
+
+.cart-disclaimer {
+  line-height: 1.6;
+}
+
+.catalog-meta .catalog-price {
+  color: var(--wine);
+  font-size: 12px;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+@media (max-width: 600px) {
+  .product-bottom {
+    display: flex;
+    align-items: stretch;
+    flex-direction: column;
+    gap: 9px;
+  }
+
+  .product-bottom .price-tag {
+    min-height: 22px;
+  }
+
+  .product-bottom .price-tag strong {
+    font-size: 15px;
+  }
+
+  .product-bottom .add-button {
+    width: 100%;
+  }
+
+  .cart-row {
+    grid-template-columns: 56px minmax(0, 1fr);
+    row-gap: 8px;
+  }
+
+  .cart-line-total {
+    grid-column: 2;
+  }
+}

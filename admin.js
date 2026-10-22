@@ -109,6 +109,8 @@ function renderCatalog() {
         <strong>${product.id || "No ID"}</strong>
         <span>${product.name}</span>
         <small>${product.color}</small>
+        <small>${product.fabric || "Fabric not specified"}</small>
+        <strong class="catalog-price">${Number.isFinite(product.price) ? `₹${new Intl.NumberFormat("en-IN").format(product.price)}` : "Price not set"}${product.sold ? " · Sold" : ""}</strong>
       </div>
       <div class="catalog-actions">
         <button type="button" class="button ghost" data-edit="${product.id}">Edit</button>
@@ -122,6 +124,9 @@ function fillForm(product) {
   document.getElementById("productId").value = product.id || "";
   document.getElementById("productName").value = product.name || "";
   document.getElementById("productTagline").value = product.tagline || "";
+  document.getElementById("productPrice").value = product.price ?? "";
+  document.getElementById("productOriginalPrice").value = product.originalPrice ?? "";
+  document.getElementById("productFabric").value = product.fabric || "";
   document.getElementById("productImage").value = product.image || "";
   if (productImagePreview) {
     const previewSource = product.image || "";
@@ -178,6 +183,9 @@ function handleProductSubmit(event) {
   const id = String(formData.get("id") || "").trim();
   const name = String(formData.get("name") || "").trim();
   const tagline = String(formData.get("tagline") || "").trim();
+  const priceInput = String(formData.get("price") || "").trim();
+  const originalPriceInput = String(formData.get("originalPrice") || "").trim();
+  const fabric = String(formData.get("fabric") || "").trim();
   const image = String(formData.get("image") || "").trim();
   const color = String(formData.get("color") || "").trim();
   const body = String(formData.get("body") || "").trim();
@@ -188,6 +196,18 @@ function handleProductSubmit(event) {
 
   if (!name || !tagline || !image || !color || !body || !border || !look || !occasion || !description) {
     setProductStatus("Please complete all product fields.", true);
+    return;
+  }
+
+  const price = priceInput ? Number(priceInput) : null;
+  const originalPrice = originalPriceInput ? Number(originalPriceInput) : null;
+  if ((price !== null && (!Number.isSafeInteger(price) || price <= 0)) ||
+      (originalPrice !== null && (!Number.isSafeInteger(originalPrice) || originalPrice <= 0))) {
+    setProductStatus("Prices must be positive whole amounts in rupees.", true);
+    return;
+  }
+  if (originalPrice !== null && (price === null || originalPrice <= price)) {
+    setProductStatus("The original price must be higher than the selling price.", true);
     return;
   }
 
@@ -209,8 +229,11 @@ function handleProductSubmit(event) {
     border,
     look,
     occasion,
-    price: null,
-    fabric: null,
+    price,
+    originalPrice,
+    priceConfigured: true,
+    sold: editingId ? Boolean(products.find(product => product.id === editingId)?.sold) : false,
+    fabric: fabric || null,
     image
   };
 

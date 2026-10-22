@@ -575,15 +575,77 @@ window.SAREES = [
   }
 ];
 
+const suppliedPricing = {
+  "THA-001": { price: 1299, fabric: "Soft silk", sold: true },
+  "THA-002": { price: 1599, fabric: "Soft silk" },
+  "THA-003": { price: 1899, fabric: "Semi soft silk" },
+  "THA-004": { price: 1899, fabric: "Premium semi silk" },
+  "THA-005": { price: 1250, fabric: "Semi silk cotton" },
+  "THA-006": { price: 2999, fabric: "Premium soft silk" },
+  "THA-007": { price: 1250, fabric: "Semi silk cotton" },
+  "THA-008": { price: 1499, fabric: "Narayana cotton" },
+  "THA-009": { price: 1499, fabric: "Narayana cotton" },
+  "THA-010": { price: 1499, fabric: "Narayana cotton" },
+  "THA-011": { price: 1499, fabric: "Narayana cotton" },
+  "THA-012": { price: 799, fabric: "Semi cotton" },
+  "THA-013": { price: 1299, fabric: "Mysore silk" },
+  "THA-014": { price: 760, fabric: "Semi cotton" },
+  "THA-015": { price: 799, fabric: "Semi cotton" },
+  "THA-016": { price: 760, fabric: "Semi cotton" },
+  "THA-017": { price: 1399, fabric: "Checked Kalyani cotton" },
+  "THA-018": { price: 1199, fabric: "Maheshwari cotton" },
+  "THA-019": { price: 799, fabric: "Semi cotton" },
+  "THA-020": { price: 1199, fabric: "Maheshwari cotton" },
+  "THA-021": { price: 1299, fabric: "Soft cotton Kalamkari" },
+  "THA-022": { price: 1250, fabric: "Semi silk cotton" },
+  "THA-023": { price: 999, fabric: "Cotton Kalamkari" },
+  "THA-024": { price: 799, fabric: "Semi cotton" },
+  "THA-025": { price: 999, fabric: "Cotton Kalamkari" },
+  "THA-026": { price: 1299, fabric: "Soft cotton Kalamkari" },
+  "THA-027": { price: 1250, fabric: "Mysore silk" },
+  "THA-028": { price: 1299, fabric: "Semi silk" },
+  "THA-029": { price: 1299, fabric: "Semi silk" },
+  "THA-030": { price: 1399, fabric: "Checked Kalyani cotton" },
+  "THA-031": { price: 1399, fabric: "Checked Kalyani cotton" },
+  "THA-032": { price: 1399, fabric: "Checked Kalyani cotton" },
+  "THA-033": { price: 1399, fabric: "Checked Kalyani cotton" },
+  "THA-034": { price: 1399, fabric: "Checked Kalyani cotton" },
+  "THA-035": { price: 1199, fabric: "Maheshwari cotton" },
+  "THA-036": { price: 1199, fabric: "Maheshwari cotton" },
+  "THA-037": { price: 1299, fabric: "Checked semi silk cotton" },
+  "THA-038": { price: 1299, fabric: "Checked semi silk cotton" },
+  "THA-039": { price: 1499, fabric: "Semi silk" },
+  "THA-040": { price: 1250, fabric: "Mysore silk" },
+  "THA-041": { price: 1599, fabric: "Soft silk" }
+};
+
+window.SAREES = window.SAREES.map(product => {
+  const pricing = suppliedPricing[product.id];
+  return pricing ? { ...product, ...pricing, priceConfigured: true } : product;
+});
+
 window.catalogStorageKey = "tharinayambyaisha-products-v1";
 try {
   const storedCatalog = JSON.parse(localStorage.getItem(window.catalogStorageKey) || "null");
   if (Array.isArray(storedCatalog) && storedCatalog.length) {
-    window.SAREES = storedCatalog;
+    window.SAREES = storedCatalog.map(product => {
+      const seeded = window.SAREES.find(item => item.id === product.id);
+      if (!seeded) return product;
+      const priceConfigured = product.priceConfigured === true;
+      return {
+        ...seeded,
+        ...product,
+        price: priceConfigured ? product.price : (product.price ?? seeded.price),
+        originalPrice: product.originalPrice ?? null,
+        fabric: product.fabric || seeded.fabric,
+        sold: Boolean(product.sold || seeded.sold),
+        priceConfigured: true
+      };
+    });
+    localStorage.setItem(window.catalogStorageKey, JSON.stringify(window.SAREES));
   } else {
     localStorage.setItem(window.catalogStorageKey, JSON.stringify(window.SAREES));
   }
 } catch (error) {
   localStorage.setItem(window.catalogStorageKey, JSON.stringify(window.SAREES));
 }
-

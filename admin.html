@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="styles.css?v=2026-10-22" />
+    <link rel="stylesheet" href="pricing.css?v=2026-10-22" />
     <style>
       :root {
         --wine: #4d1727;
@@ -446,6 +447,22 @@
                 <input id="productTagline" name="tagline" type="text" required />
               </div>
 
+              <div class="two-col">
+                <div class="field-group">
+                  <label for="productPrice">Selling price (₹)</label>
+                  <input id="productPrice" name="price" type="number" min="1" step="1" inputmode="numeric" />
+                </div>
+                <div class="field-group">
+                  <label for="productOriginalPrice">Original price (₹, optional)</label>
+                  <input id="productOriginalPrice" name="originalPrice" type="number" min="1" step="1" inputmode="numeric" />
+                </div>
+              </div>
+
+              <div class="field-group">
+                <label for="productFabric">Type / material</label>
+                <input id="productFabric" name="fabric" type="text" placeholder="e.g. Soft silk" />
+              </div>
+
               <div class="field-group admin-image-box">
                 <label for="productImage">Image path or upload</label>
                 <input id="productImage" name="image" type="text" required placeholder="assets/images/tha-001.jpeg" />
@@ -504,7 +521,7 @@
       </section>
     </main>
 
-    <script src="products.js?v=2026-10-22"></script>
-    <script src="admin.js?v=2026-10-22"></script>
+    <script src="products.js?v=2026-10-22-price-tags"></script>
+    <script src="admin.js?v=2026-10-22-price-tags"></script>
   </body>
 </html>
